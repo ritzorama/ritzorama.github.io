@@ -4,13 +4,12 @@ import { ExternalLink, Github } from "lucide-react";
 const Projects = () => {
   const projects = [
     {
-      title: "E-Commerce Platform",
+      title: "snak8s",
       description:
-        "A full-featured online store with real-time inventory, secure payments, and an intuitive admin dashboard.",
-      tags: ["React", "Node.js", "Stripe", "PostgreSQL"],
-      image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-      liveUrl: "#",
-      githubUrl: "#",
+        "A visually interactive way to navigate Kubernetes resources in a game-like fashion.",
+      tags: ["React", "Node.js", "Kanvas", "Meshery"],
+      image: "https://github.com/ritzorama/snak8s/blob/2e88da85806b6940cc6484c932bf76df3849d564/snk8s.png",
+      githubUrl: "https://github.com/ritzorama/snak8s",
     },
     {
       title: "AI Content Generator",
@@ -18,8 +17,8 @@ const Projects = () => {
         "An intelligent writing assistant powered by GPT that helps creators produce engaging content at scale.",
       tags: ["Next.js", "OpenAI", "TypeScript", "Tailwind"],
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-      liveUrl: "#",
-      githubUrl: "#",
+      // liveUrl: "#",
+      // githubUrl: "#",
     },
     {
       title: "Finance Dashboard",
@@ -27,8 +26,8 @@ const Projects = () => {
         "A comprehensive financial analytics platform with real-time data visualization and predictive insights.",
       tags: ["React", "D3.js", "Python", "AWS"],
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-      liveUrl: "#",
-      githubUrl: "#",
+      // liveUrl: "#",
+      // githubUrl: "#",
     },
   ];
 
