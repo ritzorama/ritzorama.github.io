@@ -20,7 +20,7 @@ const Hero = () => {
           {/* Name */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold mb-6 animate-slide-up">
             <span className="text-foreground">Hello, I'm </span>
-            <span className="gradient-text">Alex Morgan</span>
+            <span className="gradient-text">Rian Cteulp</span>
           </h1>
 
           {/* Title */}
@@ -47,23 +47,23 @@ const Hero = () => {
           {/* Social Links */}
           <div className="flex items-center justify-center gap-6 animate-fade-in animation-delay-400">
             <a
-              href="https://github.com"
+              href="https://github.com/ritzorama"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               <Github className="w-6 h-6" />
             </a>
-            <a
+            {/* <a
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               <Linkedin className="w-6 h-6" />
-            </a>
+            </a> */}
             <a
-              href="mailto:hello@example.com"
+              href="mailto:rian.cteulp@gmail.com"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               <Mail className="w-6 h-6" />
