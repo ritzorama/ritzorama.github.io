@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alex Morgan | Full-Stack Developer & Creative Technologist</title>
+    <script>
+      // GitHub Pages SPA redirect handler
+      // Check if we were redirected from 404.html
+      (function() {
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          // Validate that redirect is same origin to prevent malicious redirects
+          try {
+            const redirectUrl = new URL(redirect);
+            if (redirectUrl.origin === location.origin) {
+              history.replaceState(null, null, redirect);
+            }
+          } catch (e) {
+            // Invalid URL, ignore
+          }
+        }
+      })();
+    </script>
     <meta name="description" content="Full-Stack Developer crafting beautiful digital experiences. Specializing in React, TypeScript, and modern web technologies." />
     <meta name="author" content="Alex Morgan" />
     <link rel="canonical" href="https://alexmorgan.dev" />
