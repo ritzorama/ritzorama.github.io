@@ -98,7 +98,9 @@ function formatContent(content: string): string {
   let html = content;
   
   // First, handle code blocks (must be done before other replacements)
-  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+    return lang ? `<pre><code class="language-${lang}">${code}</code></pre>` : `<pre><code>${code}</code></pre>`;
+  });
   
   // Split content into lines for processing
   const lines = html.split('\n');
@@ -195,7 +197,7 @@ function formatContent(content: string): string {
   html = processedLines.join('\n');
   
   // Now handle inline formatting
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
   
   return html;
