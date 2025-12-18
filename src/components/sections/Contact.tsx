@@ -33,18 +33,18 @@ const Contact = () => {
                 href="mailto:hello@example.com"
                 className="hover:text-primary transition-colors duration-300"
               >
-                hello@example.com
+                rian.cteulp@gmail.com
               </a>
             </div>
             <div className="flex items-center gap-3 text-muted-foreground">
               <MapPin className="w-5 h-5 text-primary" />
-              <span>San Francisco, CA</span>
+              <span>The internets</span>
             </div>
           </div>
 
           {/* CTA Button */}
           <Button variant="glow" size="xl" asChild className="mb-16">
-            <a href="mailto:hello@example.com">
+            <a href="mailto:rian.cteulp@gmail.com">
               <Mail className="w-5 h-5 mr-2" />
               Send Me a Message
             </a>
