@@ -95,20 +95,112 @@ const BlogPost = () => {
 
 // Simple markdown-like formatting
 function formatContent(content: string): string {
-  return content
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(.+)$/gm, (match) => {
-      if (match.startsWith('<')) return match;
-      return `<p>${match}</p>`;
-    });
+  let html = content;
+  
+  // First, handle code blocks (must be done before other replacements)
+  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+    return lang ? `<pre><code class="language-${lang}">${code}</code></pre>` : `<pre><code>${code}</code></pre>`;
+  });
+  
+  // Split content into lines for processing
+  const lines = html.split('\n');
+  const processedLines: string[] = [];
+  let inList = false;
+  let listType = '';
+  
+  for (let i = 0; i < lines.length; i++) {
+    // Trim leading/trailing whitespace from each line
+    const line = lines[i].trim();
+    
+    // Skip empty lines
+    if (line === '') {
+      if (inList) {
+        processedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      processedLines.push('');
+      continue;
+    }
+    
+    // Handle headers
+    if (line.match(/^## (.+)$/)) {
+      if (inList) {
+        processedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      processedLines.push(line.replace(/^## (.+)$/, '<h2>$1</h2>'));
+      continue;
+    }
+    
+    if (line.match(/^### (.+)$/)) {
+      if (inList) {
+        processedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      processedLines.push(line.replace(/^### (.+)$/, '<h3>$1</h3>'));
+      continue;
+    }
+    
+    // Handle unordered lists
+    if (line.match(/^- (.+)$/)) {
+      if (!inList) {
+        processedLines.push('<ul>');
+        inList = true;
+        listType = 'ul';
+      } else if (listType !== 'ul') {
+        processedLines.push(`</${listType}>`);
+        processedLines.push('<ul>');
+        listType = 'ul';
+      }
+      processedLines.push(line.replace(/^- (.+)$/, '<li>$1</li>'));
+      continue;
+    }
+    
+    // Handle ordered lists
+    if (line.match(/^(\d+)\. (.+)$/)) {
+      if (!inList) {
+        processedLines.push('<ol>');
+        inList = true;
+        listType = 'ol';
+      } else if (listType !== 'ol') {
+        processedLines.push(`</${listType}>`);
+        processedLines.push('<ol>');
+        listType = 'ol';
+      }
+      processedLines.push(line.replace(/^(\d+)\. (.+)$/, '<li>$2</li>'));
+      continue;
+    }
+    
+    // Close list if we're in one and hit a non-list line
+    if (inList) {
+      processedLines.push(`</${listType}>`);
+      inList = false;
+      listType = '';
+    }
+    
+    // Handle regular paragraphs (skip if already HTML)
+    if (!line.startsWith('<')) {
+      processedLines.push(`<p>${line}</p>`);
+    } else {
+      processedLines.push(line);
+    }
+  }
+  
+  // Close any open list
+  if (inList) {
+    processedLines.push(`</${listType}>`);
+  }
+  
+  html = processedLines.join('\n');
+  
+  // Now handle inline formatting
+  html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  return html;
 }
 
 export default BlogPost;
