@@ -9,6 +9,7 @@ const Projects = () => {
         "A visually interactive way to navigate Kubernetes resources in a game-like fashion.",
       tags: ["React", "Node.js", "Kanvas", "Meshery"],
       image: "https://raw.githubusercontent.com/ritzorama/snak8s/2e88da85806b6940cc6484c932bf76df3849d564/snk8s.png",
+      liveUrl: "https://shapes.meshery.io",
       githubUrl: "https://github.com/ritzorama/snak8s",
     },
     {
