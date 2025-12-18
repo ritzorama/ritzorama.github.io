@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === "development" && componentTagger(),
+    // Buffer polyfill is required for gray-matter library which parses YAML frontmatter in markdown files
     nodePolyfills({
       include: ['buffer'],
       globals: {

@@ -2,7 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getBlogPost, blogPosts } from "@/data/blogLoader";
-import { renderMarkdownSync } from "@/lib/markdown";
+import { renderMarkdown } from "@/lib/markdown";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import 'highlight.js/styles/github-dark.css';
@@ -59,7 +59,7 @@ const BlogPost = () => {
 
           {/* Article Content */}
           <div className="max-w-3xl prose prose-invert prose-lg prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border prose-pre:border-border">
-            <div dangerouslySetInnerHTML={{ __html: renderMarkdownSync(post.content) }} />
+            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
           </div>
 
           {/* Related Posts */}

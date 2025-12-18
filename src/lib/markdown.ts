@@ -22,15 +22,6 @@ marked.setOptions({
  * @param markdown - The markdown string to render
  * @returns The rendered HTML string
  */
-export async function renderMarkdown(markdown: string): Promise<string> {
-  return marked.parse(markdown);
-}
-
-/**
- * Synchronously renders markdown content to HTML
- * @param markdown - The markdown string to render
- * @returns The rendered HTML string
- */
-export function renderMarkdownSync(markdown: string): string {
+export function renderMarkdown(markdown: string): string {
   return marked.parse(markdown) as string;
 }

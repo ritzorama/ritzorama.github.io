@@ -33,14 +33,19 @@ export const blogPosts: BlogPost[] = Object.entries(blogModules).map(([path, con
   const { data, content: markdownContent } = matter(content);
   const frontmatter = data as BlogFrontmatter;
   
+  // Validate required frontmatter fields
+  if (!frontmatter.id || !frontmatter.title || !frontmatter.date) {
+    throw new Error(`Blog post at ${path} is missing required frontmatter fields (id, title, or date)`);
+  }
+  
   return {
     id: frontmatter.id,
     title: frontmatter.title,
-    excerpt: frontmatter.excerpt,
+    excerpt: frontmatter.excerpt || '',
     content: markdownContent,
     date: frontmatter.date,
-    readTime: frontmatter.readTime,
-    category: frontmatter.category,
+    readTime: frontmatter.readTime || '5 min read',
+    category: frontmatter.category || 'Uncategorized',
     image: frontmatter.image,
   };
 }).sort((a, b) => {
