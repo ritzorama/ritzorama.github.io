@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { blogPosts } from "@/data/blogPosts";
+import { blogPosts } from "@/data/blogLoader";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 

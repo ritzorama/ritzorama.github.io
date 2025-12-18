@@ -1,9 +1,11 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getBlogPost, blogPosts } from "@/data/blogPosts";
+import { getBlogPost, blogPosts } from "@/data/blogLoader";
+import { renderMarkdown } from "@/lib/markdown";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import 'highlight.js/styles/github-dark.css';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +59,7 @@ const BlogPost = () => {
 
           {/* Article Content */}
           <div className="max-w-3xl prose prose-invert prose-lg prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border prose-pre:border-border">
-            <div dangerouslySetInnerHTML={{ __html: formatContent(post.content) }} />
+            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
           </div>
 
           {/* Related Posts */}
@@ -92,115 +94,5 @@ const BlogPost = () => {
     </div>
   );
 };
-
-// Simple markdown-like formatting
-function formatContent(content: string): string {
-  let html = content;
-  
-  // First, handle code blocks (must be done before other replacements)
-  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-    return lang ? `<pre><code class="language-${lang}">${code}</code></pre>` : `<pre><code>${code}</code></pre>`;
-  });
-  
-  // Split content into lines for processing
-  const lines = html.split('\n');
-  const processedLines: string[] = [];
-  let inList = false;
-  let listType = '';
-  
-  for (let i = 0; i < lines.length; i++) {
-    // Trim leading/trailing whitespace from each line
-    const line = lines[i].trim();
-    
-    // Skip empty lines
-    if (line === '') {
-      if (inList) {
-        processedLines.push(`</${listType}>`);
-        inList = false;
-        listType = '';
-      }
-      processedLines.push('');
-      continue;
-    }
-    
-    // Handle headers
-    if (line.match(/^## (.+)$/)) {
-      if (inList) {
-        processedLines.push(`</${listType}>`);
-        inList = false;
-        listType = '';
-      }
-      processedLines.push(line.replace(/^## (.+)$/, '<h2>$1</h2>'));
-      continue;
-    }
-    
-    if (line.match(/^### (.+)$/)) {
-      if (inList) {
-        processedLines.push(`</${listType}>`);
-        inList = false;
-        listType = '';
-      }
-      processedLines.push(line.replace(/^### (.+)$/, '<h3>$1</h3>'));
-      continue;
-    }
-    
-    // Handle unordered lists
-    if (line.match(/^- (.+)$/)) {
-      if (!inList) {
-        processedLines.push('<ul>');
-        inList = true;
-        listType = 'ul';
-      } else if (listType !== 'ul') {
-        processedLines.push(`</${listType}>`);
-        processedLines.push('<ul>');
-        listType = 'ul';
-      }
-      processedLines.push(line.replace(/^- (.+)$/, '<li>$1</li>'));
-      continue;
-    }
-    
-    // Handle ordered lists
-    if (line.match(/^(\d+)\. (.+)$/)) {
-      if (!inList) {
-        processedLines.push('<ol>');
-        inList = true;
-        listType = 'ol';
-      } else if (listType !== 'ol') {
-        processedLines.push(`</${listType}>`);
-        processedLines.push('<ol>');
-        listType = 'ol';
-      }
-      processedLines.push(line.replace(/^(\d+)\. (.+)$/, '<li>$2</li>'));
-      continue;
-    }
-    
-    // Close list if we're in one and hit a non-list line
-    if (inList) {
-      processedLines.push(`</${listType}>`);
-      inList = false;
-      listType = '';
-    }
-    
-    // Handle regular paragraphs (skip if already HTML)
-    if (!line.startsWith('<')) {
-      processedLines.push(`<p>${line}</p>`);
-    } else {
-      processedLines.push(line);
-    }
-  }
-  
-  // Close any open list
-  if (inList) {
-    processedLines.push(`</${listType}>`);
-  }
-  
-  html = processedLines.join('\n');
-  
-  // Now handle inline formatting
-  html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-  
-  return html;
-}
 
 export default BlogPost;
