@@ -5,7 +5,10 @@ import { getBlogPost, blogPosts } from "@/data/blogLoader";
 import { renderMarkdown } from "@/lib/markdown";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import 'highlight.js/styles/github-dark.css';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,7 +62,12 @@ const BlogPost = () => {
 
           {/* Article Content */}
           <div className="max-w-3xl prose prose-invert prose-lg prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border prose-pre:border-border">
-            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]} 
+              rehypePlugins={[rehypeHighlight]}
+            >
+              {post.content}
+            </ReactMarkdown>
           </div>
 
           {/* Related Posts */}
