@@ -1,7 +1,8 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getBlogPost, blogPosts } from "@/data/blogPosts";
+import { getBlogPost, blogPosts } from "@/data/blogLoader";
+import { renderMarkdown } from "@/lib/markdown";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ReactMarkdown from "react-markdown";

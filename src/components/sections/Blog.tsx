@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { blogPosts } from "@/data/blogPosts";
+import { blogPosts } from "@/data/blogLoader";
 
 const Blog = () => {
   const featuredPosts = blogPosts.slice(0, 3);
