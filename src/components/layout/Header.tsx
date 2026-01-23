@@ -41,7 +41,7 @@ const Header = () => {
             href="#"
             className="font-display text-2xl font-semibold text-foreground hover:text-primary transition-colors duration-300"
           >
-            AM<span className="text-primary">.</span>
+            RC<span className="text-primary">.</span>
           </a>
 
           {/* Desktop Navigation */}
